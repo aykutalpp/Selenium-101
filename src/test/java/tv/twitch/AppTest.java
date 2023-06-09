@@ -220,7 +220,7 @@ public class AppTest {
     @Test
     public void isEnabledButton () {
         driver.get("https://www.automationtesting.co.uk/buttons.html");
-        System.out.println(findElement(By.id("btn_four")).isDisplayed());
+        System.out.println(findElement(By.id("btn_four")).isDisplayed()); // hidden elementi test edebilirsin
         System.out.println(findElement(By.id("btn_four")).isEnabled());
         System.out.println(findElement(By.id("btn_four")).isSelected());
         Assert.assertEquals(false , findElement(By.id("btn_four")).isEnabled());
