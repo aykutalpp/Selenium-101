@@ -8,8 +8,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -17,7 +17,7 @@ import java.util.List;
 
 
 //copy this template before every new class
-public class AAABASE {
+public class RadioButtons {
     WebDriver driver;
     WebDriverWait wait;
 
@@ -35,8 +35,19 @@ public class AAABASE {
         wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofMillis(10));
     }
     @Test
-    public void testOf () {
-        driver.get("");
+    public void testOfRadioButtons () {
+        driver.get("https://www.automationtesting.co.uk/dropdown.html#");
+
+        for (int i = 0; i < 8; i++) {
+            findElement(By.cssSelector("[for='demo-priority-low']")).click();
+            findElement(By.cssSelector("[for='cb_red']")).click();
+            findElement(By.cssSelector("[for='demo-priority-normal']")).click();
+            findElement(By.cssSelector("[for='cb_green']")).click();
+            findElement(By.cssSelector("[for='demo-priority-high']")).click();
+            findElement(By.cssSelector("[for='cb_blue']")).click();
+            Select cars = new Select(findElement(By.id("cars")));
+            cars.selectByIndex(i);
+        }
 
     }
     @After
