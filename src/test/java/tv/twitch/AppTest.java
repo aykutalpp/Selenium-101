@@ -81,8 +81,8 @@ public class AppTest {
             if (!currentWindow.equals(window)){
                 driver.switchTo().window(window);
             }
-        }
-        TimeUnit.SECONDS.sleep(5);
+        }TimeUnit.SECONDS.sleep(5);
+
         System.out.println("New window text = " + driver.findElement(By.id("sampleHeading")).getText());
         driver.close(); // yeni açılan sekmeyi kapattım
         TimeUnit.SECONDS.sleep(5);
@@ -93,23 +93,25 @@ public class AppTest {
 
     }
     @Test
-    public void enOnBir () throws InterruptedException {
+    public void enOnBirSelect () throws InterruptedException {
         driver.navigate().to("https://www.n11.com/uye-ol");
-        TimeUnit.SECONDS.sleep(5);
+        TimeUnit.SECONDS.sleep(1);
         driver.findElement(By.id("myLocation-close-info")).click();
-        TimeUnit.SECONDS.sleep(5);
+        TimeUnit.SECONDS.sleep(1);
         driver.findElement(By.cssSelector("span.btn.btnBlack.close")).click();
-        TimeUnit.SECONDS.sleep(5);
+        TimeUnit.SECONDS.sleep(1);
         driver.findElement(By.cssSelector
                 ("[class='inputfield buyerAgreement ']>[class='checkbox']")).click(); // user agreement
-        TimeUnit.SECONDS.sleep(5);
+        TimeUnit.SECONDS.sleep(1);
 
-        Select select = new Select(driver.findElement(By.id("birthDay")));
-        select.selectByVisibleText("7");
-        Select select1 = new Select(driver.findElement(By.id("birthMonth")));
-        select1.selectByVisibleText("Aralık");
-        Select select2 = new Select(driver.findElement(By.id("birthYear")));
-        select2.selectByVisibleText("1996");
+        Select gun = new Select(driver.findElement(By.id("birthDay")));
+        gun.selectByVisibleText("7");
+        Select ay = new Select(driver.findElement(By.id("birthMonth")));
+        //ay.selectByVisibleText("Aralık"); //bu şekilde de aralık seçilebilir
+        //ay.selectByValue("12"); //bu şekilde de aralık seçilebilir
+        ay.selectByIndex(11); //bu şekilde kasım seçilebilir
+        Select yil = new Select(driver.findElement(By.id("birthYear")));
+        yil.selectByVisibleText("1996");
         TimeUnit.SECONDS.sleep(5);
 
 
@@ -134,7 +136,7 @@ public class AppTest {
         findElement(By.linkText("ACTIONS")).click();
     }
     @Test
-    public void bundle404error () {
+    public void bundle404errorAssert () {
         driver.get("https://www.bundle.app/gundem/goldman-sachstan-yeni-dolar/tl-tahmini-ve-mehmet-simsek-yorumu-7f34d39f-266d-4456-9538-fdda5c08e73b");
         String error = findElement(By.cssSelector("h1[class='notfoundText']")).getText();
         Assert.assertEquals("Sayfa bulunamadı",error);
@@ -214,6 +216,15 @@ public class AppTest {
         driver.get("https://www.automationtesting.co.uk/iframes.html");
         driver.switchTo().frame(0);
 
+    }
+    @Test
+    public void isEnabledButton () {
+        driver.get("https://www.automationtesting.co.uk/buttons.html");
+        System.out.println(findElement(By.id("btn_four")).isDisplayed());
+        System.out.println(findElement(By.id("btn_four")).isEnabled());
+        System.out.println(findElement(By.id("btn_four")).isSelected());
+        Assert.assertEquals(false , findElement(By.id("btn_four")).isEnabled());
+        //burada tuşun enable olup olmadığına göre testi fail edebildim
     }
     @After
     public void tearDown () {
