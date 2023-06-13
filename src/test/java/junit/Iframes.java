@@ -1,4 +1,4 @@
-package tv.twitch;
+package junit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -12,13 +12,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
 //copy this template before every new class
-public class BrowserTabs {
+public class Iframes {
     WebDriver driver;
     WebDriverWait wait;
 
@@ -36,31 +35,23 @@ public class BrowserTabs {
         wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofMillis(10));
     }
     @Test
-    public void testOfBrowserTabs () throws InterruptedException {
-        driver.get("https://www.automationtesting.co.uk/browserTabs.html");
-        //3 yeni sekme açtım
-        for (int i = 0; i < 3; i++) {
-            findElement(By.cssSelector("[value='Open Tab']")).click();
-        }
-        String mainPage = driver.getWindowHandle();
+    public void testOfIframes () throws InterruptedException {
+        driver.get("https://www.automationtesting.co.uk/iframes.html");
+        // ilk framedeye geçip işlem yaptım
+        driver.switchTo().frame(0);
+        findElement(By.cssSelector("a[href='#sidebar'")).click();
+        TimeUnit.SECONDS.sleep(2);
 
-        ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
-        System.out.println("There are " + tabs.size() + " tabs opened");
+        //ana frame'e döndüm
+        driver.switchTo().parentFrame();
+        findElement(By.cssSelector("a[href='#sidebar'")).click();
+        findElement(By.cssSelector("a[href='#sidebar'")).click();
 
-        for (String tab : tabs) {
-            driver.switchTo().window(tab);
-            TimeUnit.SECONDS.sleep(1);
-            if (driver.getWindowHandle().equalsIgnoreCase(tabs.get(1))) {
-                findElement(By.name("q")).click();
-                findElement(By.name("q")).sendKeys("is it third tab ?");
-                TimeUnit.SECONDS.sleep(2);
-            }
-        }
-        for (String tab : tabs) {
-            driver.switchTo().window(tab);
-            driver.close();
-            TimeUnit.SECONDS.sleep(1);
-        }
+        //ikinci frame e geçip işlem yaptım
+        driver.switchTo().frame(1);
+        findElement(By.cssSelector("[class='ytp-large-play-button ytp-button ytp-large-play-button-red-bg']")).click();
+        TimeUnit.SECONDS.sleep(2);
+
     }
     @After
     public void afterAll () {

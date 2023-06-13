@@ -1,4 +1,4 @@
-package tv.twitch;
+package junit;
 
 import org.junit.After;
 import org.junit.Before;

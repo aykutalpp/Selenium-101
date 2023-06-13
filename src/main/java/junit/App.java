@@ -1,4 +1,4 @@
-package tv.twitch;
+package junit;
 
 public class App {
 }

@@ -1,23 +1,25 @@
-package tv.twitch;
+package junit;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 //copy this template before every new class
-public class Iframes {
+public class ScreenShot {
     WebDriver driver;
     WebDriverWait wait;
 
@@ -27,6 +29,16 @@ public class Iframes {
     public List<WebElement> findElements(By by) {
         return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
     }
+    public static void takeSnapShot(WebDriver webdriver) throws IOException {
+        File srcFile = ((TakesScreenshot)webdriver).getScreenshotAs(OutputType.FILE);
+        File destFile = new File("C:\\Users\\testinium\\Desktop\\ss\\"+timestamp()+".png");
+
+        FileUtils.copyFile(srcFile,destFile);
+    }
+    public static String timestamp() {
+        return new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date());
+        //return new SimpleDateFormat("dd-MM-yyyy HH-mm-ss").format(new Date());
+    }
     @Before
     public void beforeAll () {
         ChromeOptions options = new ChromeOptions();
@@ -35,22 +47,9 @@ public class Iframes {
         wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofMillis(10));
     }
     @Test
-    public void testOfIframes () throws InterruptedException {
-        driver.get("https://www.automationtesting.co.uk/iframes.html");
-        // ilk framedeye geçip işlem yaptım
-        driver.switchTo().frame(0);
-        findElement(By.cssSelector("a[href='#sidebar'")).click();
-        TimeUnit.SECONDS.sleep(2);
-
-        //ana frame'e döndüm
-        driver.switchTo().parentFrame();
-        findElement(By.cssSelector("a[href='#sidebar'")).click();
-        findElement(By.cssSelector("a[href='#sidebar'")).click();
-
-        //ikinci frame e geçip işlem yaptım
-        driver.switchTo().frame(1);
-        findElement(By.cssSelector("[class='ytp-large-play-button ytp-button ytp-large-play-button-red-bg']")).click();
-        TimeUnit.SECONDS.sleep(2);
+    public void testOf () throws IOException {
+        driver.get("https://www.automationtesting.co.uk/");
+        takeSnapShot(driver);
 
     }
     @After
