@@ -51,11 +51,11 @@ public class TestNgAnnotiationsBeforeMethod {
             findElement(By.id("submit-login")).click();
         }
 
-        @Test (groups = {"regression"})
+        @Test (enabled = false, groups = {"regression"}) //enabled ile skipledim
         public void testOf1 () {
             System.out.println("1");
         }
-        @Test (groups = {"smoke", "regression"})
+        @Test (dependsOnMethods = {"testOf3"},groups = {"smoke", "regression"}) // depends onla önce testof3 calisti
         public void testOf2 () {
             System.out.println("2");
         }

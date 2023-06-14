@@ -3,10 +3,13 @@
 <suite name="Suite1" verbose="1" >
     <parameter name="email" value="asd@asd.com"></parameter>
     <parameter name="password" value="asdasd"></parameter>
+    <listeners>
+        <listener class-name="test.ng.ITestListenerSample"></listener>
+    </listeners>
 
     <test name="test.ng" >
         <classes>
-            <class name="test.ng.DataProviders"></class>
+            <class name="burada.properties.var.LoginTest"></class>
         </classes>
     </test>
 </suite>
